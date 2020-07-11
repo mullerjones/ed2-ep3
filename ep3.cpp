@@ -1,16 +1,20 @@
 #include <string>
 #include <iostream>
-#include "interface.hpp"
+#include "grafo.hpp"
 using namespace std;
 
 int main(int argc, char** argv)
 {
     string regex;
-    string palavra;
-    if(argc > 1)
+    string* palavras;
+    if(argc > 2)
     {
         regex = argv[1];
-        palavra = argv[2];
+        palavras = new string[argc-2];
+        for (int i = 2; i < argc; i++)
+        {
+            palavras[i-2] = argv[i];
+        }
     }
     else
     {
@@ -18,15 +22,20 @@ int main(int argc, char** argv)
         cout << "Insira expressão do ReGex: ";
         cin >> regex;
         cout << "Insira palavra de teste: ";
-        cin >> palavra;
+        cin >> palavras[0];
     }
 
     cout << "Regex = " << regex << endl;
-    cout << "Palavra = " << palavra << endl;
     
     Grafo g(regex);
-    if(g.reconheceG(palavra)) printf("Palavra reconhecida pela expressão regular.\n");
-    else printf("Palavra não reconhecida pela expressão regular.\n");
+    for (int i = 0; i < argc-2; i++)
+    {
+        cout << "Palavra " << i << " = " << palavras[i] << endl;
+        if(g.reconheceG(palavras[i])) printf("Palavra reconhecida pela expressão regular.\n");
+        else printf("Palavra não reconhecida pela expressão regular.\n");
+    }
+    
+    
     
 
     return 0;
